@@ -1,9 +1,17 @@
 <div class="flex min-h-screen">
   <!-- Sidebar -->
-  <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
+  <aside
+    [ngClass]="isSidebarCollapsed ? 'w-20' : 'w-64'"
+    class="bg-gray-900 text-white flex flex-col min-h-screen rounded-s-2xl"
+    dir="rtl"
+  >
     <div class="flex items-center">
-      <div class="p-6 text-2xl font-bold">finance</div>
-      <lucide-angular [img]="Menu" class="ml-10"></lucide-angular>
+      <button (click)="toggleSidebar()">
+        <lucide-angular [img]="Menu" class="mr-6 mb-2"></lucide-angular>
+      </button>
+      <div class="p-5 mt-5 text-2xl font-bold" *ngIf="!isSidebarCollapsed">
+        finance
+      </div>
     </div>
     <nav class="flex-1">
       <ul class="space-y-1">
@@ -12,32 +20,32 @@
           [routerLink]="['/overview']"
         >
           <lucide-angular [img]="House"></lucide-angular>
-          <span>Overview</span>
+          <span *ngIf="!isSidebarCollapsed">Overview</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
         >
           <lucide-angular [img]="ArrowUpDown"></lucide-angular>
-          <span>Transactions</span>
+          <span *ngIf="!isSidebarCollapsed">Transactions</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
         >
           <lucide-angular [img]="ChartPie"></lucide-angular>
-          <span>Budgets</span>
+          <span *ngIf="!isSidebarCollapsed">Budgets</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
           [routerLink]="['/pots']"
         >
           <lucide-angular [img]="PiggyBank"></lucide-angular>
-          <span>Pots</span>
+          <span *ngIf="!isSidebarCollapsed">Pots</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
         >
           <lucide-angular [img]="Receipt"></lucide-angular>
-          <span>Recurring Bills</span>
+          <span *ngIf="!isSidebarCollapsed">Recurring Bills</span>
         </li>
       </ul>
     </nav>

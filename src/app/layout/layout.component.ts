@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { LucideAngularModule, Menu, House, ArrowUpDown, ChartPie, PiggyBank, Receipt } from 'lucide-angular';
 import { RouterLink } from '@angular/router';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
   imports: [
     LucideAngularModule,
-    RouterLink
+    RouterLink,
+    NgClass,
+    NgIf
 ],
   providers: [],
   templateUrl: './layout.component.html',
@@ -20,5 +23,11 @@ export class LayoutComponent {
   readonly ChartPie = ChartPie;
   readonly PiggyBank = PiggyBank;
   readonly Receipt = Receipt;
+
+  isSidebarCollapsed = false;
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }
 
