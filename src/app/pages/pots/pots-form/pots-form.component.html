@@ -1,0 +1,37 @@
+<div class="p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">New pot</h2>
+    <button (click)="onCancel()" mat-icon-button>
+      <lucide-angular [img]="X"></lucide-angular>
+    </button>
+  </div>
+
+  <form class="flex flex-col gap-4" [formGroup]="potForm" (ngSubmit)="onSave()">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Value</mat-label>
+      <input matInput formControlName="await" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="personalCare">Personal Care</mat-option>
+        <mat-option value="bills">Bills</mat-option>
+        <mat-option value="diningOut">Dining Out</mat-option>
+        <mat-option value="entertainment">Entertainment</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex justify-end gap-2 mt-4">
+      <button mat-stroked-button type="button" (click)="onCancel()">
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>
