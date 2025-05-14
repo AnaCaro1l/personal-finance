@@ -1,0 +1,45 @@
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white flex flex-col min-h-screen">
+    <div class="flex items-center">
+      <div class="p-6 text-2xl font-bold">finance</div>
+      <lucide-angular [img]="Menu" class="ml-10"></lucide-angular>
+    </div>
+    <nav class="flex-1">
+      <ul class="space-y-1">
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/overview']"
+        >
+          <lucide-angular [img]="House"></lucide-angular>
+          <span>Overview</span>
+        </li>
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+        >
+          <lucide-angular [img]="ArrowUpDown"></lucide-angular>
+          <span>Transactions</span>
+        </li>
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+        >
+          <lucide-angular [img]="ChartPie"></lucide-angular>
+          <span>Budgets</span>
+        </li>
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/pots']"
+        >
+          <lucide-angular [img]="PiggyBank"></lucide-angular>
+          <span>Pots</span>
+        </li>
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+        >
+          <lucide-angular [img]="Receipt"></lucide-angular>
+          <span>Recurring Bills</span>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+</div>
