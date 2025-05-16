@@ -12,21 +12,21 @@
     </div>
 
     <div class="text-sm text-gray-700 text-center">
-      <div class="mb-1 flex-col text-start border-l-2 p-2 border-gray-400">
-        <p>Entertainment</p>
-        <span class="">$50.00</span>
-      </div>
-      <div class="mb-1 flex-col text-start border-l-2 p-2 border-gray-500">
-        <p>Bills</p>
-        <span class="">$750.00</span>
-      </div>
-      <div class="mb-1 flex-col text-start border-l-2 p-2 border-blue-400">
-        <p>Dining Out</p>
-        <span class="">$75.00</span>
-      </div>
-      <div class="mb-1 flex-col text-start border-l-2 p-2 border-purple-400">
-        <p>Personal Care</p>
-        <span class="">$100.00</span>
+      <div
+        *ngFor="let group of potsByCategory | keyvalue"
+        class="flex items-center gap-2 mb-2"
+      >
+        <span
+          class="w-1 h-7 rounded"
+          [ngStyle]="{ 'background-color': getCategoryColor(group.key) }"
+        ></span>
+        <div class="flex flex-col items-start">
+          <span class="flex-1 text-gray-700">{{ group.key | titlecase }}</span>
+
+          <span class="font-semibold"
+            >${{ getTotalValue(group.value) | number : "1.2-2" }}</span
+          >
+        </div>
       </div>
     </div>
   </div>

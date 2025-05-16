@@ -23,6 +23,7 @@
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/transactions']"
         >
           <lucide-angular [img]="ArrowUpDown"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Transactions</span>
@@ -42,6 +43,7 @@
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/recurring-bills']"
         >
           <lucide-angular [img]="Receipt"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Recurring Bills</span>

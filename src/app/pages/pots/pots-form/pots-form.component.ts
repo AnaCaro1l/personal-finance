@@ -24,19 +24,38 @@ import {MatInputModule} from '@angular/material/input';
 })
 export class PotsFormComponent {
   readonly X = X;
+
   potForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<PotsFormComponent>) {
+  categoryColorMap: Record<string, string> = {
+    entertainment: 'border-l-teal-500',
+    bills: 'border-l-orange-400',
+    diningOut: 'border-l-purple-400',
+    personalCare: 'border-l-pink-400',
+  };
+
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<PotsFormComponent>
+  ) {
     this.potForm = this.fb.group({
       name: ['', Validators.required],
-      await: [0, Validators.required],
-      catogory: ['', Validators.required],
+      value: [0, Validators.required],
+      category: ['', Validators.required],
     });
   }
 
   onSave(){
     if (this.potForm.valid){
-      this.dialogRef.close(this.potForm.value)
+      const { name, value, category } = this.potForm.value;
+      const color = this.categoryColorMap[category] || 'border-l-teal-500';
+
+      this.dialogRef.close({
+        name,
+        value,
+        color,
+        category
+      });
     }
   }
 

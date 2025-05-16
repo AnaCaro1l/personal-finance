@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 interface RecurringBill {
   name: string;
@@ -10,7 +11,7 @@ interface RecurringBill {
 }
 @Component({
   selector: 'app-recurring-bills',
-  imports: [ NgFor ],
+  imports: [ NgFor, RouterLink ],
   templateUrl: './recurring-bills.component.html',
   styleUrl: './recurring-bills.component.scss'
 })
