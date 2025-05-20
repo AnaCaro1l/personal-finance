@@ -30,6 +30,7 @@
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/budgets']"
         >
           <lucide-angular [img]="ChartPie"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Budgets</span>

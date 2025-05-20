@@ -1,0 +1,49 @@
+<main class="bg-gray-50 p-6 w-full overflow-hidden">
+  <div>
+    <h1 class="text-2xl font-semibold mb-4">Budgets</h1>
+  </div>
+  <div>
+    <mat-tab-group>
+      <mat-tab label="Pots">
+        <div class="p-10 w-full flex justify-center">
+          <div class="flex items-center space-x-20">
+            <div class="w-[500px] h-[500px]">
+              <canvas #doughnutCanvas></canvas>
+            </div>
+
+            <div class="text-sm text-gray-700 text-center">
+              <div
+                *ngFor="let group of potsByCategory | keyvalue"
+                class="flex items-center gap-5 mb-2"
+              >
+                <span
+                  class="w-1 h-20 rounded"
+                  [ngStyle]="{
+                    'background-color': getCategoryColor(group.key)
+                  }"
+                ></span>
+                <div class="flex flex-col items-start">
+                  <span class="flex-1 text-gray-700">{{
+                    group.key | titlecase
+                  }}</span>
+
+                  <span class="font-semibold"
+                    >${{ getTotalValue(group.value) | number : "1.2-2" }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Transactions">
+        <div class="p-10 w-full flex justify-center">
+          <div class="w-[900px] h-[600px]">
+            <canvas #barCanvas></canvas>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Bills"> Bills </mat-tab>
+    </mat-tab-group>
+  </div>
+</main>

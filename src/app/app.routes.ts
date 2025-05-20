@@ -3,6 +3,7 @@ import { OverviewComponent } from './pages/overview/overview.component';
 import { PotsComponent } from './pages/pots/pots.component';
 import { RecurringBillsComponent } from './pages/recurring-bills/recurring-bills.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
+import { BudgetsComponent } from './pages/budgets/budgets.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/overview', pathMatch: 'full' },
@@ -10,4 +11,5 @@ export const routes: Routes = [
   { path: 'pots', component: PotsComponent },
   { path: 'recurring-bills', component: RecurringBillsComponent },
   { path: 'transactions', component: TransactionsComponent },
+  { path: 'budgets', component: BudgetsComponent },
 ];

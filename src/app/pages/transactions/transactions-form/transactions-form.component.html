@@ -1,6 +1,6 @@
 <div class="p-6">
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold">New bill</h2>
+    <h2 class="text-xl font-bold">{{dialogTitle}}</h2>
     <button (click)="onCancel()" mat-icon-button>
       <lucide-angular [img]="X"></lucide-angular>
     </button>
@@ -8,7 +8,7 @@
 
   <form
     class="flex flex-col gap-4"
-    [formGroup]="billForm"
+    [formGroup]="transForm"
     (ngSubmit)="onSave()"
   >
     <mat-form-field>
@@ -26,7 +26,7 @@
       <input
         matInput
         [matDatepicker]="picker"
-        formControlName="dueDate"
+        formControlName="date"
         placeholder="MM/DD/YYYY"
       />
       <mat-hint>MM/DD/YYYY</mat-hint>
@@ -41,11 +41,11 @@
       appearance="legacy"
       name="fontStyle"
       aria-label="Font Style"
-      formControlName="status"
+      formControlName="toggle"
       class="text-center items-center justify-center"
     >
       <mat-button-toggle value="Paid">Paid</mat-button-toggle>
-      <mat-button-toggle value="Unpaid">Unpaid</mat-button-toggle>
+      <mat-button-toggle value="Received">Received</mat-button-toggle>
     </mat-button-toggle-group>
 
     <div class="flex justify-end gap-2 mt-4">

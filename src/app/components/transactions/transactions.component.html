@@ -1,28 +1,33 @@
 <div class="bg-white p-6 rounded-2xl shadow">
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-lg font-semibold text-gray-800">Transactions</h2>
-    <a href="" class="text-sm text-blue-600 hover:underline cursor-pointer"
+    <h2 class="text-lg font-semibold text-gray-800">Latest Transactions</h2>
+    <a
+      routerLink="/transactions"
+      class="text-sm text-blue-600 hover:underline cursor-pointer"
       >View All</a
     >
   </div>
 
   <div class="space-y-9">
     <div
-      *ngFor="let tx of transactions"
+      *ngFor="let tx of latestTransactions"
       class="flex items-center justify-between"
     >
       <div class="flex items-center space-x-3">
         <lucide-angular [img]="CircleUserRound" class=""></lucide-angular>
         <div>
           <p class="text-sm font-medium text-gray-800">{{ tx.name }}</p>
-          <p class="text-xs text-gray-500">{{ tx.date }}</p>
+          <p class="text-xs text-gray-500">{{ tx.date | date }}</p>
         </div>
       </div>
-      <div [ngClass]="{
-        'text-green-600': tx.amount > 0,
-        'text-red-600': tx.amount < 0
-      }" class="text-sm font-semibold">
-        {{ formatAmount(tx.amount) }}
+      <div
+        [ngClass]="{
+          'text-green-600': tx.toggle === 'Received',
+          'text-red-600': tx.toggle === 'Paid'
+        }"
+        class="text-sm font-semibold"
+      >
+        {{ formatAmount(tx.amount, tx.toggle) }}
       </div>
     </div>
   </div>

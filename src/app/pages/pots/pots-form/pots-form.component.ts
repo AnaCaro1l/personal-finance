@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import { Pots } from '../../../services/pots-service.service';
 
 @Component({
   selector: 'app-pots-form',
@@ -40,19 +41,19 @@ export class PotsFormComponent {
   ) {
     this.potForm = this.fb.group({
       name: ['', Validators.required],
-      value: [0, Validators.required],
+      amount: ['', Validators.required],
       category: ['', Validators.required],
     });
   }
 
   onSave(){
     if (this.potForm.valid){
-      const { name, value, category } = this.potForm.value;
+      const { name, amount, category } = this.potForm.value;
       const color = this.categoryColorMap[category] || 'border-l-teal-500';
 
       this.dialogRef.close({
         name,
-        value,
+        amount,
         color,
         category
       });

@@ -5,17 +5,12 @@ import {
   ElementRef,
   OnInit,
 } from '@angular/core';
-import {
-  Chart,
-  ChartConfiguration,
-  ChartType,
-  registerables,
-  Plugin,
-} from 'chart.js';
-import { Pots, PotsServiceService } from '../../services/pots-service.service';
+import { Chart, ChartConfiguration, registerables, Plugin } from 'chart.js';
+import { MatTabsModule } from '@angular/material/tabs';
+import { PotsServiceService, Pots } from '../../services/pots-service.service';
 import { CommonModule } from '@angular/common';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { RouterModule } from '@angular/router';
+import { TransactionsServiceService } from '../../services/transactions-service.service';
 import { Subscription } from 'rxjs';
 
 Chart.register(...registerables);
@@ -23,21 +18,33 @@ Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-budgets',
-  imports: [CommonModule, RouterModule],
-  providers: [],
+  imports: [MatTabsModule, CommonModule],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })
-export class BudgetsComponent implements OnInit, AfterViewInit {
+export class BudgetsComponent implements AfterViewInit, OnInit {
   @ViewChild('doughnutCanvas')
   private doughnutCanvas!: ElementRef<HTMLCanvasElement>;
   private subscription!: Subscription;
   doughnutChart!: Chart;
 
+  @ViewChild('barCanvas')
+  private barCanvas!: ElementRef<HTMLCanvasElement>;
+  barChart!: Chart;
+
+  @ViewChild('lineCanvas')
+  private lineCanvas!: ElementRef<HTMLCanvasElement>;
+  lineChart!: Chart;
+
+  transactions: any[] = [];
+
   pots: Pots[] = [];
   potsByCategory: Record<string, Pots[]> = {};
   potsByCategoryArray: { category: string; pots: any[] }[] = [];
-  constructor(private potsService: PotsServiceService) {}
+  constructor(
+    private potsService: PotsServiceService,
+    private TransService: TransactionsServiceService
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.potsService.pots$.subscribe((pots) => {
@@ -45,6 +52,8 @@ export class BudgetsComponent implements OnInit, AfterViewInit {
       this.potsByCategory = this.potsService.getPotsbyCategory(this.pots);
       this.updateChart();
     });
+    this.transactions = this.TransService.getTransactions();
+    this.createBarChart();
   }
 
   centerTextPlugin: Plugin = {
@@ -75,10 +84,81 @@ export class BudgetsComponent implements OnInit, AfterViewInit {
     if (this.doughnutCanvas?.nativeElement) {
       this.createChart();
     }
+    if (this.barCanvas?.nativeElement) {
+      this.createBarChart();
+    }
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  createBarChart() {
+    const receivedByMonth: Record<string, number> = {};
+    const paidByMonth: Record<string, number> = {};
+
+    this.transactions.forEach((tx) => {
+      const date = new Date(tx.date);
+      const month = date.toLocaleString('en-US', { month: 'long' });
+
+      if (tx.toggle === 'Received') {
+        receivedByMonth[month] =
+          (receivedByMonth[month] || 0) + Number(tx.amount);
+      } else {
+        paidByMonth[month] = (paidByMonth[month] || 0) + Number(tx.amount);
+      }
+    });
+
+    const orderedMonths = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const receivedData = orderedMonths.map(
+      (month) => receivedByMonth[month] || 0
+    );
+    const paidData = orderedMonths.map((month) => paidByMonth[month] || 0);
+
+    const barChartData: ChartConfiguration<'bar'> = {
+      type: 'bar',
+      data: {
+        labels: orderedMonths,
+        datasets: [
+          {
+            label: 'Received',
+            data: receivedData,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+          },
+          {
+            label: 'Paid',
+            data: paidData,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: 'Received vs Paid per Month' },
+        },
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    };
+
+    this.barChart = new Chart(this.barCanvas.nativeElement, barChartData);
   }
 
   createChart() {
@@ -133,14 +213,19 @@ export class BudgetsComponent implements OnInit, AfterViewInit {
     }
 
     const categoryTotals = Object.entries(this.potsByCategory).map(
-      ([_, items]) => items.reduce((acc: number, pot: any) => acc + (Number(pot.value) || 0), 0)
+      ([_, items]) =>
+        items.reduce(
+          (acc: number, pot: Pots) => acc + (Number(pot.amount) || 0),
+          0
+        )
     );
     const categoryLabels = Object.keys(this.potsByCategory);
     const backgroundColors = ['#14B8A6', '#FB923C', '#C084FC', '#F472B6'];
 
     this.doughnutChart.data.labels = categoryLabels;
     this.doughnutChart.data.datasets[0].data = categoryTotals;
-    this.doughnutChart.data.datasets[0].backgroundColor = backgroundColors.slice(0, categoryTotals.length);
+    this.doughnutChart.data.datasets[0].backgroundColor =
+      backgroundColors.slice(0, categoryTotals.length);
     this.doughnutChart.update();
   }
 

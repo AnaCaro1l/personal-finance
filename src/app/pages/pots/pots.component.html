@@ -5,21 +5,21 @@
       + new
     </button>
   </div>
-  <div class="flex flex-col gap-4">
-    <div class="flex justify-center">
+  <div class="flex gap-4">
+    <div class="flex">
       <div
         class="bg-white p-6 rounded-2xl shadow-lg w-[400px] text-center flex items-center flex-col gap-2"
       >
         <lucide-angular
           [img]="PiggyBank"
           color="#199183"
-          size="60"
+          size="70"
         ></lucide-angular>
         <p class="text-lg font-light">Total Saved</p>
-        <h1 class="text-2xl font-semibold mb-4">$850</h1>
+        <h1 class="text-2xl font-semibold mb-4">{{ totalSaved | currency: "USD" }}</h1>
       </div>
     </div>
-    <div class="bg-white p-6 rounded-2xl shadow-lg">
+    <div class="bg-white p-6 rounded-2xl shadow-lg w-full">
       <div class="flex justify-between">
         <h2>Your pots</h2>
         <button mat-flat-button color="primary">
@@ -34,15 +34,15 @@
         *ngFor="let pot of pots"
         class="flex justify-between mt-4 p-4 bg-gray-50 rounded-2xl shadow-md"
       >
-        <div class="text-sm font-medium border-l-2 p-2 {{ pot.color }}">
+        <div class="text-sm font-medium border-l-4 rounded p-2 {{ pot.color }}">
           {{ pot.name }}
         </div>
-        <div class="text-base font-semibold">${{ pot.value }}</div>
+        <div class="text-base font-semibold flex items-center">{{ pot.amount | currency: "USD" }}</div>
       </div>
       <div class="flex justify-center">
-        <div *ngFor="let categoty of categories" class="flex gap-4 mt-4 p-4">
-          <div class="text-sm font-medium border-b-2 {{ categoty.color }}">
-            {{ categoty.name }}
+        <div *ngFor="let category of categories" class="flex gap-4 mt-4 p-4">
+          <div class="text-sm font-medium border-b-2 {{ category.color }}">
+            {{ category.name }}
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@
   </div>
 
   <div class="flex gap-10">
-    <div class="p-6 flex gap-4">
-      <lucide-angular [img]="PiggyBank" class="mt-2"></lucide-angular>
+    <div class="p-6 flex gap-4 items-center">
+      <lucide-angular [img]="PiggyBank" size="50" color="#199183"></lucide-angular>
       <div>
         <div class="text-lg text-gray-500">Total Saved</div>
         <div class="text-2xl font-bold text-gray-800">$850</div>
@@ -16,21 +16,9 @@
     </div>
 
     <div class="grid grid-cols-2 gap-4 text-sm text-gray-700 ml-10">
-      <div class="flex-col flex border-l-2 p-2 border-gray-500 pt-2">
-        <span>Savings</span>
-        <span class="text-base font-bold">$159</span>
-      </div>
-      <div class="flex-col flex border-l-2 p-2 border-gray-400 pt-2">
-        <span>Gift</span>
-        <span class="text-base font-bold">$40</span>
-      </div>
-      <div class="flex-col flex border-l-2 p-2 border-blue-400 pt-2">
-        <span>Concert Ticket</span>
-        <span class="text-base font-bold">$110</span>
-      </div>
-      <div class="flex-col flex border-l-2 p-2 border-purple-400 pt-2">
-        <span>New Laptop</span>
-        <span class="text-base font-bold">$10</span>
+      <div *ngFor="let pot of pots" class="flex-col flex {{ pot.color }} border-l-4 p-2 rounded pt-2">
+        <span>{{ pot.name }}</span>
+        <span class="text-base font-bold">{{ pot.amount | currency: 'USD' }}</span>
       </div>
     </div>
   </div>
