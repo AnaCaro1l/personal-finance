@@ -7,6 +7,7 @@ import {
   CircleCheckBig,
   CircleX,
   Receipt,
+  EllipsisVertical,
 } from 'lucide-angular';
 import { NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,18 +15,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { BillFormComponent } from './bills-form/bill-form.component';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import {
+  BillsServiceService,
+  RecurringBill,
+} from '../../services/bills-service.service';
+import { MatMenuModule } from '@angular/material/menu';
 
-interface RecurringBill {
-  name: string;
-  amount: number;
-  dueDate: string;
-  status: 'Paid' | 'Unpaid';
-  icon: string;
-}
+
 
 @Component({
   selector: 'app-recurring-bills',
-  imports: [LucideAngularModule, NgFor, MatButtonModule, NgIf, CommonModule],
+  imports: [
+    LucideAngularModule,
+    NgFor,
+    MatButtonModule,
+    NgIf,
+    CommonModule,
+    MatMenuModule,
+  ],
   templateUrl: './recurring-bills.component.html',
   styleUrl: './recurring-bills.component.scss',
 })
@@ -36,32 +43,16 @@ export class RecurringBillsComponent {
   readonly CircleCheckBig = CircleCheckBig;
   readonly CircleX = CircleX;
   readonly Receipt = Receipt;
+  readonly EllipsisVertical = EllipsisVertical;
 
-  bills: RecurringBill[] = [
-    {
-      name: 'Rent',
-      amount: 1200,
-      dueDate: 'May 25',
-      status: 'Unpaid',
-      icon: '🏠',
-    },
-    {
-      name: 'Electricity',
-      amount: 100,
-      dueDate: 'May 20',
-      status: 'Paid',
-      icon: '⚡️',
-    },
-    {
-      name: 'Water',
-      amount: 50,
-      dueDate: 'May 15',
-      status: 'Paid',
-      icon: '💧',
-    },
-  ];
+  bills: RecurringBill[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private billsService: BillsServiceService
+  ) {
+    this.bills = this.billsService.getBills();
+  }
 
   openForm() {
     this.dialog
@@ -86,6 +77,28 @@ export class RecurringBillsComponent {
   }
 
   getTotalBills(): number {
-    return this.bills.reduce((sum, bill) => sum + bill.amount, 0);
+    return this.billsService.totalBills;
+  }
+
+  editBill(index: number) {
+    const bill = this.bills[index];
+    this.dialog
+      .open(BillFormComponent, {
+        width: '500px',
+        height: 'auto',
+        data: bill,
+      })
+      .afterClosed()
+      .subscribe((updatedBill: RecurringBill | null) => {
+        if (updatedBill) {
+          this.billsService.updateBill(index, updatedBill);
+          this.bills = this.billsService.getBills();
+        }
+      });
+  }
+
+  deleteBill(index: number) {
+    this.billsService.removeBill(index);
+    this.bills = this.billsService.getBills();
   }
 }

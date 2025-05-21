@@ -17,7 +17,7 @@
         </button>
       </div>
       <div
-        *ngFor="let bill of bills"
+        *ngFor="let bill of bills; let i = index"
         class="bg-gray-50 rounded-2xl p-4 shadow-md flex items-center gap-4 w-full"
       >
         <span class="text-3xl">
@@ -25,23 +25,44 @@
             {{ bill.icon }}
           </ng-container>
           <ng-template #defaultIcon>
-            <lucide-angular [img]="Receipt" color="#199183" size="40"></lucide-angular>
+            <lucide-angular
+              [img]="Receipt"
+              color="#199183"
+              size="40"
+            ></lucide-angular>
           </ng-template>
         </span>
 
         <div class="flex-1">
           <h3 class="text-lg font-semibold">{{ bill.name }}</h3>
-          <p class="text-sm text-gray-500">Due: {{ bill.dueDate | date: 'MMM d' }}</p>
+          <p class="text-sm text-gray-500">
+            Due: {{ bill.dueDate | date : "MMM d" }}
+          </p>
         </div>
-        <div class="text-right">
-          <p class="text-lg font-bold">${{ bill.amount }}</p>
-          <span
-            class="text-sm {{
-              bill.status === 'Paid' ? 'text-green-500' : 'text-red-500'
-            }}"
-          >
-            {{ bill.status }}
-          </span>
+        <div class="text-right flex gap-2">
+          <div>
+            <p class="text-lg font-bold">
+              {{ bill.amount | currency : "USD" }}
+            </p>
+            <span
+              class="text-sm {{
+                bill.status === 'Paid' ? 'text-green-500' : 'text-red-500'
+              }}"
+            >
+              {{ bill.status }}
+            </span>
+          </div>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <lucide-angular [img]="EllipsisVertical" size="20"></lucide-angular>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editBill(i)">
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteBill(i)">
+              <span>Delete</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
       <div class="flex justify-end">
@@ -54,9 +75,15 @@
       class="bg-white p-6 rounded-2xl shadow-lg w-[500px] flex flex-col gap-4"
     >
       <div class="flex flex-col items-center gap-2">
-        <lucide-angular [img]="Banknote" size="60" color="#199183"></lucide-angular>
+        <lucide-angular
+          [img]="Banknote"
+          size="60"
+          color="#199183"
+        ></lucide-angular>
         <h2 class="text-sm font-light">Total accounts payable:</h2>
-        <h1 class="text-2xl font-semibold">${{ getTotalBills() }}</h1>
+        <h1 class="text-2xl font-semibold">
+          {{ getTotalBills() | currency : "USD" }}
+        </h1>
       </div>
       <div
         class="bg-gray-50 rounded-2xl p-4 shadow-md flex flex-col gap-4 items-center"
@@ -70,7 +97,7 @@
           ></lucide-angular>
         </div>
         <div *ngFor="let bill of paidBills">
-          <p>{{ bill.name }} - ${{ bill.amount }}</p>
+          <p>{{ bill.name }} - {{ bill.amount | currency : "USD" }}</p>
         </div>
       </div>
       <div
@@ -85,7 +112,7 @@
           ></lucide-angular>
         </div>
         <div *ngFor="let bill of unpaidBills">
-          <p>{{ bill.name }} - ${{ bill.amount }}</p>
+          <p>{{ bill.name }} - {{ bill.amount | currency : "USD" }}</p>
         </div>
       </div>
     </div>

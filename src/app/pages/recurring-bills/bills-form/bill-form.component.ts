@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LucideAngularModule, X } from 'lucide-angular';
@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RecurringBill } from '../../../services/bills-service.service';
 
 @Component({
   selector: 'app-bill-form',
@@ -30,18 +32,28 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class BillFormComponent {
   readonly X = X;
 
+  isEditMode = false;
+  dialogTitle = 'New Bill';
+
   billForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<BillFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: RecurringBill | null,
   ) {
     this.billForm = this.fb.group({
       name: ['', Validators.required],
       amount: ['', Validators.required],
       dueDate: [null, Validators.required],
       status: ['Unpaid', Validators.required],
-    })
+    });
+
+    if (data) {
+      this.isEditMode = true;
+      this.dialogTitle = 'Edit Bill';
+      this.billForm.patchValue(data);
+    }
   }
 
   onSave(){

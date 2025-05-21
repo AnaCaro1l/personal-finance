@@ -1,24 +1,31 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
+import {
+  BillsServiceService,
+  RecurringBill,
+} from '../../services/bills-service.service';
+import { CommonModule } from '@angular/common';
 
-interface RecurringBill {
-  name: string;
-  amount: number;
-  dueDate: string;
-  status: 'Paid' | 'Unpaid';
-  icon: string;
-}
 @Component({
   selector: 'app-recurring-bills',
-  imports: [ NgFor, RouterLink ],
+  imports: [NgFor, RouterLink, CommonModule],
   templateUrl: './recurring-bills.component.html',
-  styleUrl: './recurring-bills.component.scss'
+  styleUrl: './recurring-bills.component.scss',
 })
 export class RecurringBillsComponent {
-  bills: RecurringBill[] = [
-    { name: 'Rent', amount: 1200, dueDate: 'May 25', status: 'Unpaid', icon: '🏠'},
-    { name: 'Electricity', amount: 100, dueDate: 'May 20', status: 'Paid', icon: '⚡️'},
-    { name: 'Water', amount: 50, dueDate: 'May 15', status: 'Paid', icon: '💧'},
-  ];
+  bills: RecurringBill[] = [];
+
+  constructor(private service: BillsServiceService) {
+    this.bills = this.service.getBills();
+  }
+
+  get latestBills(): RecurringBill[] {
+    return this.bills
+      .slice()
+      .sort(
+        (a, b) => new Date(a.dueDate).getTime() - new Date(a.dueDate).getTime()
+      )
+      .slice(0, 5);
+  }
 }

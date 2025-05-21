@@ -13,7 +13,7 @@
       <span class="text-3xl">{{ bill.icon }}</span>
       <div class="flex-1">
         <h3 class="text-lg font-semibold">{{ bill.name }}</h3>
-        <p class="text-sm text-gray-500">Due: {{ bill.dueDate }}</p>
+        <p class="text-sm text-gray-500">Due: {{ bill.dueDate | date }}</p>
       </div>
       <div class="text-right">
         <p class="text-lg font-bold">${{ bill.amount }}</p>
