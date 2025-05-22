@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { TransactionsServiceService } from '../../services/transactions-service.service';
 import { Subscription } from 'rxjs';
+import { BillsServiceService } from '../../services/bills-service.service';
 
 Chart.register(...registerables);
 Chart.register(ChartDataLabels);
@@ -36,6 +37,8 @@ export class BudgetsComponent implements AfterViewInit, OnInit {
   private lineCanvas!: ElementRef<HTMLCanvasElement>;
   lineChart!: Chart;
 
+  Bills: any[] = [];
+
   transactions: any[] = [];
 
   pots: Pots[] = [];
@@ -43,17 +46,14 @@ export class BudgetsComponent implements AfterViewInit, OnInit {
   potsByCategoryArray: { category: string; pots: any[] }[] = [];
   constructor(
     private potsService: PotsServiceService,
-    private TransService: TransactionsServiceService
+    private TransService: TransactionsServiceService,
+    private BillsService: BillsServiceService
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.potsService.pots$.subscribe((pots) => {
-      this.pots = [...pots];
-      this.potsByCategory = this.potsService.getPotsbyCategory(this.pots);
-      this.updateChart();
-    });
     this.transactions = this.TransService.getTransactions();
-    this.createBarChart();
+
+    this.Bills = this.BillsService.getBills();
   }
 
   centerTextPlugin: Plugin = {
@@ -87,12 +87,70 @@ export class BudgetsComponent implements AfterViewInit, OnInit {
     if (this.barCanvas?.nativeElement) {
       this.createBarChart();
     }
+    if (this.lineCanvas?.nativeElement) {
+      this.createLineChart();
+    }
+
+    this.subscription = this.potsService.pots$.subscribe((pots) => {
+      this.pots = [...pots];
+      this.potsByCategory = this.potsService.getPotsbyCategory(this.pots);
+      this.updateChart();
+    });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
+  createLineChart() {
+  const totalBills = this.Bills;
+
+  const billsByMonth: Record<string, number> = {};
+
+  totalBills.forEach((bill) => {
+    const date = new Date(bill.dueDate);
+    if (isNaN(date.getTime())) return;
+
+    const month = date.toLocaleString('en-US', { month: 'long' });
+
+    billsByMonth[month] = (billsByMonth[month] || 0) + Number(bill.amount);
+  });
+
+  const orderedMonths = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const billsData = orderedMonths.map((month) => billsByMonth[month] || 0);
+
+  const lineChartData: ChartConfiguration<'line'> = {
+    type: 'line',
+    data: {
+      labels: orderedMonths,
+      datasets: [
+        {
+          label: 'Total Bills per Month',
+          data: billsData,
+          fill: false,
+          borderColor: 'rgba(255, 99, 132, 0.6)',
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: 'Total Bills per Month' },
+      },
+      scales: {
+        y: { beginAtZero: true },
+      },
+    },
+  };
+
+  this.lineChart = new Chart(this.lineCanvas.nativeElement, lineChartData);
+}
   createBarChart() {
     const receivedByMonth: Record<string, number> = {};
     const paidByMonth: Record<string, number> = {};
