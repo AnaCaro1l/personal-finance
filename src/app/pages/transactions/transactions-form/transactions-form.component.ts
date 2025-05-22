@@ -25,7 +25,7 @@ import { Transaction } from '../../../services/transactions-service.service';
     MatDatepickerModule,
     MatButtonToggleModule,
     MatNativeDateModule,
-  ],
+],
   templateUrl: './transactions-form.component.html',
   styleUrl: './transactions-form.component.scss',
 })

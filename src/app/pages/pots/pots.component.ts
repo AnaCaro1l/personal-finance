@@ -8,14 +8,16 @@ import {
   PiggyBank,
   FunnelPlus,
   PlusCircle,
+  EllipsisVertical
 } from 'lucide-angular';
 import { PotsServiceService } from '../../services/pots-service.service';
 import { Pots, Categories } from '../../services/pots-service.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-pots',
   standalone: true,
-  imports: [MatButtonModule, LucideAngularModule, NgFor, CommonModule],
+  imports: [MatButtonModule, LucideAngularModule, NgFor, CommonModule, MatMenuModule],
   templateUrl: './pots.component.html',
   styleUrl: './pots.component.scss',
 })
@@ -23,6 +25,7 @@ export class PotsComponent {
   readonly PiggyBank = PiggyBank;
   readonly FunnelPlus = FunnelPlus;
   readonly PlusCircle = PlusCircle;
+  readonly EllipsisVertical = EllipsisVertical;
 
   pots: Pots[] = [];
   categories: Categories[] = [];
@@ -52,5 +55,27 @@ export class PotsComponent {
           this.pots.push(newPot);
         }
       });
+  }
+
+editPot(index: number) {
+    const pot = this.pots[index];
+    this.dialog
+      .open(PotsFormComponent, {
+        width: '500px',
+        height: 'auto',
+        data: pot,
+      })
+      .afterClosed()
+      .subscribe((updatedPot: Pots | null) => {
+        if (updatedPot) {
+          this.PotsService.updatePot(index, updatedPot);
+          this.pots = this.PotsService.getPots();
+        }
+      });
+  }
+
+  deletePot(index: number) {
+    this.PotsService.removePot(index);
+    this.pots = this.PotsService.getPots();
   }
 }

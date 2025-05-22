@@ -1,9 +1,7 @@
 <main class="bg-gray-50 p-6 w-full overflow-hidden">
   <div class="flex justify-between">
     <h1 class="text-2xl font-semibold mb-4">Pots</h1>
-    <button mat-flat-button color="primary" (click)="openForm()">
-      + new
-    </button>
+    <button mat-flat-button color="primary" (click)="openForm()">+ new</button>
   </div>
   <div class="flex gap-4">
     <div class="flex">
@@ -16,7 +14,9 @@
           size="70"
         ></lucide-angular>
         <p class="text-lg font-light">Total Saved</p>
-        <h1 class="text-2xl font-semibold mb-4">{{ totalSaved | currency: "USD" }}</h1>
+        <h1 class="text-2xl font-semibold mb-4">
+          {{ totalSaved | currency : "USD" }}
+        </h1>
       </div>
     </div>
     <div class="bg-white p-6 rounded-2xl shadow-lg w-full">
@@ -31,13 +31,28 @@
         </button>
       </div>
       <div
-        *ngFor="let pot of pots"
+        *ngFor="let pot of pots; let i = index"
         class="flex justify-between mt-4 p-4 bg-gray-50 rounded-2xl shadow-md"
       >
         <div class="text-sm font-medium border-l-4 rounded p-2 {{ pot.color }}">
           {{ pot.name }}
         </div>
-        <div class="text-base font-semibold flex items-center">{{ pot.amount | currency: "USD" }}</div>
+        <div class="flex gap-2">
+          <div class="text-base font-semibold flex items-center">
+            {{ pot.amount | currency : "USD" }}
+          </div>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <lucide-angular [img]="EllipsisVertical" size="20"></lucide-angular>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editPot(i)">
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deletePot(i)">
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
       <div class="flex justify-center">
         <div *ngFor="let category of categories" class="flex gap-4 mt-4 p-4">

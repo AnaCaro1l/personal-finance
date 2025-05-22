@@ -1,6 +1,6 @@
 <div class="p-6">
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold">{{dialogTitle}}</h2>
+    <h2 class="text-xl font-bold">{{ dialogTitle }}</h2>
     <button (click)="onCancel()" mat-icon-button>
       <lucide-angular [img]="X"></lucide-angular>
     </button>
@@ -29,7 +29,6 @@
         formControlName="date"
         placeholder="MM/DD/YYYY"
       />
-      <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"
@@ -37,16 +36,18 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <mat-button-toggle-group
-      appearance="legacy"
-      name="fontStyle"
-      aria-label="Font Style"
-      formControlName="toggle"
-      class="text-center items-center justify-center"
-    >
-      <mat-button-toggle value="Paid">Paid</mat-button-toggle>
-      <mat-button-toggle value="Received">Received</mat-button-toggle>
-    </mat-button-toggle-group>
+    <div class="text-center">
+      <mat-button-toggle-group
+        appearance="legacy"
+        name="fontStyle"
+        aria-label="Font Style"
+        formControlName="toggle"
+        class="justify-center w-50 rounded-lg"
+      >
+        <mat-button-toggle value="Paid">Paid</mat-button-toggle>
+        <mat-button-toggle value="Received">Received</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
 
     <div class="flex justify-end gap-2 mt-4">
       <button mat-stroked-button type="button" (click)="onCancel()">

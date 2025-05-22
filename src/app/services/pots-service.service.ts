@@ -19,7 +19,7 @@ export class PotsServiceService {
   private potsSubject = new BehaviorSubject<Pots[]>([]);
   pots$ = this.potsSubject.asObservable();
 
-  private pots: Pots[] = [
+  private pot: Pots[] = [
     {
       name: 'Savings',
       amount: 150,
@@ -54,12 +54,12 @@ export class PotsServiceService {
   ];
 
   constructor() {
-    this.pots = this.getPots();
-    this.potsSubject.next(this.pots);
+    this.pot = this.getPots();
+    this.potsSubject.next(this.pot);
   }
 
   getPots(): Pots[] {
-    return [...this.pots];
+    return [...this.pot];
   }
 
   getCategories(): Categories[] {
@@ -79,4 +79,21 @@ export class PotsServiceService {
 
     return grouped;
   }
+
+
+    addPot(pot: Pots) {
+      this.pot.push(pot);
+    }
+
+    removePot(index: number): void {
+      if (index >= 0 && index < this.pot.length) {
+        this.pot.splice(index, 1);
+      }
+    }
+
+    updatePot(index: number, pot: Pots) {
+      if (this.pot[index]) {
+        this.pot[index] = pot;
+      }
+    }
 }
