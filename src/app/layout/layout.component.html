@@ -16,38 +16,45 @@
       <ul class="space-y-1">
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
-          [routerLink]="['/overview']"
+          [routerLink]="['/dashboard/overview']"
         >
           <lucide-angular [img]="House"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Overview</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
-          [routerLink]="['/transactions']"
+          [routerLink]="['/dashboard/transactions']"
         >
           <lucide-angular [img]="ArrowUpDown"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Transactions</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
-          [routerLink]="['/budgets']"
+          [routerLink]="['/dashboard/budgets']"
         >
           <lucide-angular [img]="ChartPie"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Budgets</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
-          [routerLink]="['/pots']"
+          [routerLink]="['/dashboard/pots']"
         >
           <lucide-angular [img]="PiggyBank"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Pots</span>
         </li>
         <li
           class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
-          [routerLink]="['/recurring-bills']"
+          [routerLink]="['/dashboard/recurring-bills']"
         >
           <lucide-angular [img]="Receipt"></lucide-angular>
           <span *ngIf="!isSidebarCollapsed">Recurring Bills</span>
+        </li>
+        <li
+          class="flex items-center px-6 py-3 hover:bg-gray-800 cursor-pointer gap-5"
+          [routerLink]="['/dashboard/profile']"
+        >
+          <lucide-angular [img]="CircleUserRound"></lucide-angular>
+          <span *ngIf="!isSidebarCollapsed">Profile</span>
         </li>
       </ul>
     </nav>

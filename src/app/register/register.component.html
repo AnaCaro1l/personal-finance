@@ -1,0 +1,70 @@
+<main class="bg-gray-900 w-full h-full">
+  <div class="flex justify-center p-10">
+    <div class="text-white text-5xl font-extrabold">finance</div>
+  </div>
+  <div class="flex justify-center">
+    <div
+      class="flex justify-center items-center py-3 w-[500px] bg-white text-black rounded-lg"
+    >
+      <mat-stepper [linear]="true" #stepper class="w-full">
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup" class="flex flex-col gap-3">
+            <ng-template *ngIf="isEditMode" matStepLabel>Edit User</ng-template>
+            <ng-template *ngIf="!isEditMode" matStepLabel>New User</ng-template>
+            <mat-form-field>
+              <mat-label>Full name</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Phone</mat-label>
+              <input matInput type="tel" formControlName="phone" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Choose a date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="date"
+                placeholder="MM/DD/YYYY"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div class="flex justify-between">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup" class="flex flex-col gap-3">
+            <ng-template matStepLabel>Acess Data</ng-template>
+            <mat-form-field>
+              <mat-label>Monthly Income</mat-label>
+              <input matInput type="number" formControlName="income" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" />
+            </mat-form-field>
+            <div class="flex justify-between">
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button (click)="onSubmit()">Submit</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  </div>
+</main>

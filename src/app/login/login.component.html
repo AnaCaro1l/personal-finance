@@ -1,0 +1,37 @@
+<main class="bg-gray-900 w-full h-full">
+  <div class="flex justify-center p-10">
+    <div class="text-white text-5xl font-extrabold">finance</div>
+  </div>
+  <div class="flex justify-center">
+    <div
+      class="flex flex-col justify-center items-center py-5 w-[400px] bg-white text-black rounded-lg"
+    >
+      <h1 class="text-2xl font-bold mb-4">Sign in</h1>
+      <form
+        class="flex flex-col gap-4"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+        <p>
+          Não tem conta? <a [routerLink]="['/register']"><i>Cadastre-se aqui</i></a>
+        </p>
+        <button
+          mat-raised-button
+          color="primary"
+          class="w-full mt-4"
+          type="submit"
+        >
+          Sign in
+        </button>
+      </form>
+    </div>
+  </div>
+</main>

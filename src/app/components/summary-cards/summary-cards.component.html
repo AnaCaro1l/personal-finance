@@ -6,11 +6,11 @@
 
   <div class="bg-white p-6 rounded-2xl shadow">
     <div class="text-sm text-gray-600">Income</div>
-    <div class="text-2xl font-bold mt-2 text-gray-800">$3,814.25</div>
+    <div class="text-2xl font-bold mt-2 text-gray-800">{{user.income | currency: 'USD'}}</div>
   </div>
 
   <div class="bg-white p-6 rounded-2xl shadow">
     <div class="text-sm text-gray-600">Expenses</div>
-    <div class="text-2xl font-bold mt-2 text-gray-800">$1,700.50</div>
+    <div class="text-2xl font-bold mt-2 text-gray-800">{{expenses | currency: 'USD'}}</div>
   </div>
 </div>
