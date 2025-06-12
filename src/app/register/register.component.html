@@ -37,10 +37,13 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <div class="flex justify-between">
-              <button mat-button matStepperPrevious>Back</button>
+            <div class="flex justify-end">
               <button mat-button matStepperNext>Next</button>
             </div>
+            <p class="text-center" *ngIf="!isEditMode">
+              Já possui conta?
+              <a [routerLink]="['/login']" class="text-blue-700"><i>Faça login aqui</i></a>
+            </p>
           </form>
         </mat-step>
         <mat-step [stepControl]="secondFormGroup">
