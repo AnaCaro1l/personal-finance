@@ -5,7 +5,10 @@
     dir="rtl"
   >
     <div class="flex items-center">
-      <button (click)="toggleSidebar()">
+      <button (click)="toggleSidebar()" *ngIf="isSidebarCollapsed">
+        <lucide-angular [img]="Menu" class="mr-6 mb-3 rounded hover:bg-gray-800 cursor-pointer"></lucide-angular>
+      </button>
+      <button (click)="toggleSidebar()" *ngIf="!isSidebarCollapsed">
         <lucide-angular [img]="Menu" class="mr-6"></lucide-angular>
       </button>
       <div class="p-5 mt-5 text-2xl font-bold" *ngIf="!isSidebarCollapsed">
