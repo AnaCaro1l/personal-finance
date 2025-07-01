@@ -53,7 +53,7 @@
       <button mat-stroked-button type="button" (click)="onCancel()">
         Cancel
       </button>
-      <button mat-flat-button color="primary" type="submit">Save</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="!transForm.valid">Save</button>
     </div>
   </form>
 </div>

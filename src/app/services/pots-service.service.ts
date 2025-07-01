@@ -51,6 +51,7 @@ export class PotsServiceService {
     { name: 'Bills', color: 'border-b-orange-400' },
     { name: 'Dining Out', color: 'border-b-purple-400' },
     { name: 'Personal Care', color: 'border-b-pink-400' },
+    { name: 'Todos', color: 'border-b-gray-400' },
   ];
 
   constructor() {
