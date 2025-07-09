@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,11 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatDatepickerModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgxMaskDirective
+  ],
+  providers: [
+    provideNgxMask(),
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',

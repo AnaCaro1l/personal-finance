@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 
 @Component({
   selector: 'app-login',
@@ -25,13 +26,17 @@ import { RouterLink } from '@angular/router';
     MatInputModule,
     MatDatepickerModule,
     RouterLink,
+    LucideAngularModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  hide: boolean = true;
 
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],

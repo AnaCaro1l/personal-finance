@@ -61,6 +61,7 @@ export class PotsComponent {
       .subscribe((newPot) => {
         if (newPot) {
           this.pots.push(newPot);
+          this.filteredPots = [...this.pots];
         }
       });
   }
@@ -77,48 +78,32 @@ export class PotsComponent {
       .subscribe((updatedPot: Pots | null) => {
         if (updatedPot) {
           this.PotsService.updatePot(index, updatedPot);
-          this.pots = this.PotsService.getPots();
+          this.pots[index] = updatedPot;
+          this.filteredPots = [...this.pots];
         }
       });
   }
 
   deletePot(index: number) {
     this.PotsService.removePot(index);
-    this.pots = this.PotsService.getPots();
+    this.pots.splice(index, 1);
+    this.filteredPots = [...this.pots];
+  }
+
+  normalize(str: string): string {
+    return str.toLowerCase().replace(/\s/g, '');
   }
 
   filterByCategory(category: string): void {
-    console.log(
-      'DEBUG: Categoria recebida na função filterByCategory:',
-      category
-    );
-    console.log('DEBUG: this.pots (ORIGINAL) antes do filtro:', this.pots);
+    const normalizedFilter = this.normalize(category);
 
-    this.filteredPots = this.pots.filter((pot) => {
-      // Garante que a propriedade 'category' existe e remove todos os espaços
-      const potCategory = pot.category
-        ? pot.category.toLowerCase().replace(/\s/g, '')
-        : '';
-      // Remove todos os espaços da categoria que veio do clique
-      const filterCategory = category.toLowerCase().replace(/\s/g, '');
-
-      console.log(
-        `DEBUG: Comparando: Pot Category: '${potCategory}' | Filtro Categoria: '${filterCategory}'`
-      );
-      const isMatch = potCategory === filterCategory;
-      console.log(`DEBUG: Resultado da comparação para este pot: ${isMatch}`);
-      return isMatch;
-    });
-
-    console.log(
-      'DEBUG: Pots filtrados para exibição (APÓS filtro):',
-      this.filteredPots
-    );
-
-    // Se você tiver uma categoria 'Todos' para mostrar tudo, mantenha esta lógica
-    if (category === 'Todos' || category === '') {
-      // Adicione mais condições se houver outros nomes para 'Todos'
+    if (normalizedFilter === 'todos' || normalizedFilter === '') {
       this.filteredPots = [...this.pots];
+      return;
     }
+
+    this.filteredPots = this.pots.filter(
+      (pot) => this.normalize(pot.category || '') === normalizedFilter
+    );
   }
 }
