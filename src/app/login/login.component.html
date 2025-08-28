@@ -1,54 +1,75 @@
-<main class="bg-gray-900 w-full h-full">
+<div
+  class="md:px-12 lg:px-20 w-full h-full flex flex-col items-center justify-center !bg-cover !bg-center !bg-no-repeat"
+  style="
+    background-image: url('https://fqjltiegiezfetthbags.supabase.co/storage/v1/object/public/block.images/blocks/signin/signin-glass.jpg');
+  "
+>
+  <!-- <p-toast></p-toast> -->
   <div class="flex justify-center p-10">
-    <div class="text-white text-5xl font-extrabold">finance</div>
+    <div class="text-white text-5xl font-extrabold">Finance</div>
   </div>
-  <div class="flex justify-center">
-    <div
-      class="flex flex-col justify-center items-center py-5 w-[400px] bg-white text-black rounded-lg"
-    >
-      <h1 class="text-2xl font-bold mb-4">Sign in</h1>
+  <div
+    class="px-8 md:px-12 lg:px-20 py-12 flex flex-col items-center gap-12 w-full max-w-xl backdrop-blur-2xl rounded-2xl bg-white/10 border border-white/10"
+  >
+    <div class="flex flex-col items-center gap-4 w-full">
+      <div class="flex flex-col gap-2 w-full">
+        <div class="text-center text-3xl font-medium text-white leading-tight">
+          Welcome Back
+        </div>
+        <div class="text-center">
+          <span class="text-white/80">Don't have an account? </span>
+          <a
+            [routerLink]="['/register']"
+            class="text-white/80 cursor-pointer hover:text-white/90 underline"
+            >Sign up
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center gap-8 w-full">
       <form
-        class="flex flex-col gap-4 p-4"
         [formGroup]="loginForm"
         (ngSubmit)="onSubmit()"
+        class="flex flex-col gap-6 w-full items-center"
       >
-        <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" />
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="w-full">
-          <mat-label>Password</mat-label>
+        <div class="flex w-full gap-2 items-center">
           <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            formControlName="password"
+            type="text"
+            placeholder="Usuário"
+            formControlName="username"
+            class="w-full px-4 py-2 rounded-md border border-white/20 bg-transparent text-white focus:border-white focus:outline-none"
           />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="hide = !hide"
-          >
-            <lucide-angular [img]="hide ? Eye : EyeOff"></lucide-angular>
-          </button>
-        </mat-form-field>
-
-        <p>
-          Não tem conta?
-          <a [routerLink]="['/register']" class="text-blue-700"
-            ><i>Cadastre-se aqui</i></a
-          >
-        </p>
+          <lucide-angular
+            [img]="user"
+            color="#D24DD3"
+            size="24"
+          ></lucide-angular>
+        </div>
+        <div class="flex gap-2 items-center w-full">
+          <input
+            [type]="viewPassword ? 'text' : 'password'"
+            placeholder="Senha"
+            formControlName="password"
+            class="w-full px-4 py-2 rounded-md border border-white/20 bg-transparent text-white focus:border-white focus:outline-none"
+          />
+          <lucide-angular
+            [img]="viewPassword ? Eye : EyeOff"
+            color="#3186BD"
+            size="24"
+            class="cursor-pointer"
+            (click)="togglePasswordVisibility()"
+          ></lucide-angular>
+        </div>
         <button
-          mat-raised-button
-          color="primary"
-          class="w-full mt-4"
           type="submit"
-          [disabled]="!loginForm.valid"
+          class="mt-4 w-full py-2 rounded-md bg-white text-black hover:bg-white/60"
         >
-          Sign in
+          Login
         </button>
       </form>
     </div>
+    <a class="text-white/80 cursor-pointer hover:text-white/90 underline"
+      >Forgot Password?</a
+    >
   </div>
-</main>
+</div>
