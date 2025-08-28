@@ -1,0 +1,9 @@
+p-button.w-full {
+    display: block; // Garante que o host element ocupe sua própria linha e largura
+    width: 100%; // O .w-full do Tailwind/PrimeFlex faz isso, mas é bom ter certeza
+
+    // Alvo o botão real dentro do componente p-button
+    .p-button {
+        width: 100%; // Faz o botão interno ocupar 100% da largura do p-button
+    }
+}
